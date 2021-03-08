@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Question</title>
+    <style>
+        /* Style the buttons */
+        .btn {
+            border: none;
+            outline: none;
+            padding: 10px 16px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+            /* Style the active class, and buttons on mouse-over */
+            .active, .btn:hover {
+                background-color: #666;
+                color: white;
+            }
+    </style>
+</head>
+<body onload="questions()">
+    <form action="" onsubmit="return false">
+        <label for="question" id="question">1. question?</label>
+        <div id="myDIV">
+            <button class="btn" id="option1" value="option1">option1</button>
+            <button class="btn active" id="option2" value="option2">option2</button>
+            <button class="btn" id="option3" value="option3">option3</button>
+            <button class="btn" id="option4" value="option4">option4</button>
+        </div>
+        <br><br>
+        <button onclick="myFunction()">Submit</button>
+    </form>
+    <script src="./multiques.js"></script>
+    <p id="demo"></p>
+    <script type="text/javascript">
+        var header = document.getElementById("myDIV");
+        var btns = header.getElementsByClassName("btn");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function () {
+                //this.className += " active";
+                var current = document.getElementsByClassName("active");
+                current[0].className = current[0].className.replace("active", "");
+                this.className += " active";
+            });
+        }
+        function myFunction() {
+            //console.log(document.getElementsByClassName("active")[0].value)
+            var selected = document.getElementsByClassName("active")[0].value;
+            //let questionno = 1;
+            //var selected = document.getElementsByClassName("active")[0].value;
+            //if (selected == "Blue") {
+            //    console.log("correct answer");
+            //}
+            //else {
+            //    console.log("incorrect answer");
+            //}
+            function1(selected);
+        }
+        function questions() {
+            time();
+            fetch('http://localhost:3000/quesone', {
+                method: 'GET',
+                //body: JSON.stringify(),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json.question[0].questionno);
+                    quiz(json);
+                    one = json.question[0].questionno;
+                })
+        }
+        function quiz(json)
+        {
+           
+            console.log(json.question[0].question)
+            document.getElementById("question").innerHTML = json.question[0].question;
+            document.getElementById("option1").innerHTML = json.question[0].option1;
+            document.getElementById("option2").innerHTML = json.question[0].option2;
+            document.getElementById("option3").innerHTML = json.question[0].option3;
+            document.getElementById("option4").innerHTML = json.question[0].option4;
+        }
+        //window.onload = question();
+        function time() {
+            //var timer;
+            var sec = 11;
+            timer = setInterval(() => {
+                document.getElementById('demo').innerHTML = 'Time: 00:' + sec;
+                if (sec < 10) {
+                    //console.log(sec)
+                    document.getElementById('demo').innerHTML = 'Time: 00:0' + sec;
+                }
+                sec--; 
+                if (sec < 0) {
+                    console.log("timeup");
+                }
+            }, 1000); 
+        }
+    </script>
+</body>
+</html>
