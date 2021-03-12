@@ -1,8 +1,10 @@
-﻿var one, timer
+﻿var one, two, timer
 function function1(selected) {
     const todo = {
+        "username": username,
         "questionno": one,
-        "option1": selected
+        "option1": selected,
+        "qb":two
     };
 
     fetch('http://localhost:3000/option', {
@@ -20,7 +22,9 @@ function function1(selected) {
             }
             else {
                 quiz(submitjson)
-                one = submitjson.question[0].questionno;
+                username;
+                one = submitjson.question.questionno;
+                two = submitjson.question.qb;
                 clearInterval(timer);
                 time();
             }

@@ -36,6 +36,7 @@
     <script src="./multiques.js"></script>
     <p id="demo"></p>
     <script type="text/javascript">
+        let username = "sam";
         var header = document.getElementById("myDIV");
         var btns = header.getElementsByClassName("btn");
         for (var i = 0; i < btns.length; i++) {
@@ -70,20 +71,21 @@
             })
                 .then(response => response.json())
                 .then(json => {
-                    console.log(json.question[0].questionno);
+                    console.log(json.question.qb);
                     quiz(json);
-                    one = json.question[0].questionno;
+                    username;
+                    one = json.question.questionno;
+                    two = json.question.qb;
                 })
         }
         function quiz(json)
         {
-           
-            console.log(json.question[0].question)
-            document.getElementById("question").innerHTML = json.question[0].question;
-            document.getElementById("option1").innerHTML = json.question[0].option1;
-            document.getElementById("option2").innerHTML = json.question[0].option2;
-            document.getElementById("option3").innerHTML = json.question[0].option3;
-            document.getElementById("option4").innerHTML = json.question[0].option4;
+            console.log(json.question.question)
+            document.getElementById("question").innerHTML = json.question.question;
+            document.getElementById("option1").innerHTML = json.question.option1;
+            document.getElementById("option2").innerHTML = json.question.option2;
+            document.getElementById("option3").innerHTML = json.question.option3;
+            document.getElementById("option4").innerHTML = json.question.option4;
         }
         //window.onload = question();
         function time() {
@@ -97,6 +99,7 @@
                 }
                 sec--; 
                 if (sec < 0) {
+                    clearInterval(timer);
                     console.log("timeup");
                 }
             }, 1000); 
