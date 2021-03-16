@@ -20,11 +20,11 @@ con.connect(function (err) {
     if (err)
         throw err;
     console.log("Connected!");
-    con.query("Select * from userandanswer", function (err, result, fields) {
-        if (err)
-            throw err;
-        console.log(result);
-    });
+    //con.query("Select * from userandanswer", function (err, result, fields) {
+    //    if (err)
+    //        throw err;
+    //    console.log(result);
+    //});
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -112,11 +112,7 @@ const answerbank = [{
 
 app.post('/option', (req, res) => {
     console.log(req.body);
-    con.query("INSERT INTO userandanswer(username, questionno , answer) VALUES('" + req.body.username + "','" + req.body.questionno + "','" + req.body.option1 + "')", function (err, result, fields) {
-        if (err)
-            throw err;
-        console.log(result);
-    });
+    var ansstat;
     let fil = answerbank.filter(questions => questions.questionno == req.body.questionno);
     console.log(fil[0].option1);
     //var red = JSON.stringify(req.body) != JSON.stringify(fil[0]) ? 'incorrect' : 'correct';
@@ -124,18 +120,32 @@ app.post('/option', (req, res) => {
     //res.send({ "answer": red });
     if (req.body.option1 == fil[0].option1)
     {
+        ansstat = "correct";
         //console.log(req.body.questionno);
         //var qno = Number(req.body.questionno) + 1
         //console.log(qno);
         //let fil2 = todo.filter(questions => questions.questionno == qno.toString());
         //console.log(fil2);
-        //res.send({ "question": fil2 });
-        let x = Math.floor((Math.random() * ran) + 1);
-        console.log(x);
+        //res.send({ "question": fil2 }); 
+    }
+    else
+    {
+        ansstat = "incorrect";
+        //res.send({ "question": "incorrect" });
+    }
+
+    con.query("INSERT INTO userandanswer(username, questionno, answer, status) VALUES('" + req.body.username + "','" + req.body.questionno + "','" + req.body.option1 + "','" + ansstat + "')", function (err, result, fields) {
+        if (err)
+            throw err;
+        console.log(result);
+    });
+
+    let x = Math.floor((Math.random() * ran) + 1);
+    console.log(x);
+    if (req.body.qb.length < ran) {
         while (req.body.qb.includes(x)) {
             //console.log("whilein")
             x = Math.floor((Math.random() * ran) + 1);
-           
         }
         console.log(req.body.qb);
         var z = req.body.qb.push(x);
@@ -143,20 +153,31 @@ app.post('/option', (req, res) => {
         var rawdata = fs.readFileSync(dir + '/q' + x + '.json');
         var student = JSON.parse(rawdata);
         student.qb = req.body.qb
-
         res.send({ "question": student });
-    }
-    else
-    {
-        res.send({ "question": "incorrect" });
     }
 });
 
-app.get('/quesone', (req, res) => {
+function place(qb) {
+    if (qb.length < ran) {
+        let x = Math.floor((Math.random() * ran) + 1);
+        while (qb.includes(x)) {
+            //console.log("whilein")
+            x = Math.floor((Math.random() * ran) + 1);
+        }
+        console.log(qb);
+        var z = qb.push(x);
+        console.log(qb)
+        var rawdata = fs.readFileSync(dir + '/q' + x + '.json');
+        var student = JSON.parse(rawdata);
+        student.qb = qb;
+        //res.send({ "question": student });
+    }
+}
+app.post('/quesone', (req, res) => {
     //let fil1 = todo.filter(questions => questions.questionno == "1");
     //console.log(fil1);
     //res.send({"question": fil1});
-    console.log("1");
+    //console.log("1");
     let x = Math.floor((Math.random() * ran) + 1);
     console.log(x);
     let rawdata = fs.readFileSync(dir + '/q' + x + '.json');
@@ -164,9 +185,37 @@ app.get('/quesone', (req, res) => {
     console.log(student);
     student.qb = [x];
     console.log(student);
-    res.send({ "question": student });
- });
-   
+    //res.send({ "question": student });
+    //console.log(req.body.username);
+    con.query("SELECT * FROM userandanswer where username='" + req.body.username + "'", function (err, result, fields) {
+        if (err)
+            throw err;
+        console.log(req.body.username);
+        console.log(result);
+        if (result === undefined || result.length == 0) {
+            //console.log("c")
+            x = Math.floor((Math.random() * ran) + 1);
+            console.log(x);
+            rawdata = fs.readFileSync(dir + '/q' + x + '.json');
+            student = JSON.parse(rawdata);
+            console.log(student);
+            student.qb = [x];
+            console.log(student);
+            res.send({ "question": student });
+        }
+        else {
+            var arr=[];
+            //console.log("S")
+            result.forEach(function (item) {
+                //console.log(item.questionno);
+                arr.push(item.questionno);
+            })
+            console.log(arr);
+            place(qb);
+        }
+    });
+});
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });

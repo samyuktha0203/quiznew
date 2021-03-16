@@ -36,7 +36,7 @@
     <script src="./multiques.js"></script>
     <p id="demo"></p>
     <script type="text/javascript">
-        let username = "sam";
+        let username = "sam1";
         var header = document.getElementById("myDIV");
         var btns = header.getElementsByClassName("btn");
         for (var i = 0; i < btns.length; i++) {
@@ -47,9 +47,10 @@
                 this.className += " active";
             });
         }
+        var selected;
         function myFunction() {
             //console.log(document.getElementsByClassName("active")[0].value)
-            var selected = document.getElementsByClassName("active")[0].value;
+            selected = document.getElementsByClassName("active")[0].value;
             //let questionno = 1;
             //var selected = document.getElementsByClassName("active")[0].value;
             //if (selected == "Blue") {
@@ -62,9 +63,10 @@
         }
         function questions() {
             time();
+            const nam = { "username": username}
             fetch('http://localhost:3000/quesone', {
-                method: 'GET',
-                //body: JSON.stringify(),
+                method: 'POST',
+                body: JSON.stringify(nam),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8'
                 }
@@ -90,7 +92,7 @@
         //window.onload = question();
         function time() {
             //var timer;
-            var sec = 11;
+            var sec = 56;
             timer = setInterval(() => {
                 document.getElementById('demo').innerHTML = 'Time: 00:' + sec;
                 if (sec < 10) {
@@ -101,6 +103,9 @@
                 if (sec < 0) {
                     clearInterval(timer);
                     console.log("timeup");
+                    questions();
+                    selected = document.getElementsByClassName("active")[0].value;
+                    function1(selected);
                 }
             }, 1000); 
         }

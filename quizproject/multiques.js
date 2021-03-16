@@ -1,4 +1,4 @@
-﻿var one, two, timer
+﻿var one, two, inc, timer
 function function1(selected) {
     const todo = {
         "username": username,
@@ -6,7 +6,7 @@ function function1(selected) {
         "option1": selected,
         "qb":two
     };
-
+ 
     fetch('http://localhost:3000/option', {
         method: 'POST',
         body: JSON.stringify(todo),
@@ -16,17 +16,12 @@ function function1(selected) {
     })
         .then(response => response.json())
         .then(submitjson => {
-            console.log(submitjson)
-            if (submitjson.question =="incorrect") {
-                alert("incorrect answer")
-            }
-            else {
+            console.log(submitjson);
                 quiz(submitjson)
                 username;
                 one = submitjson.question.questionno;
                 two = submitjson.question.qb;
                 clearInterval(timer);
                 time();
-            }
         })
 }
