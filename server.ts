@@ -111,10 +111,11 @@ const answerbank = [{
     }];
 
 app.post('/option', (req, res) => {
+    console.log("test")
     console.log(req.body);
     var ansstat;
     let fil = answerbank.filter(questions => questions.questionno == req.body.questionno);
-    console.log(fil[0].option1);
+    //console.log(fil[0].option1);
     //var red = JSON.stringify(req.body) != JSON.stringify(fil[0]) ? 'incorrect' : 'correct';
     //console.log(red);
     //res.send({ "answer": red });
@@ -137,27 +138,32 @@ app.post('/option', (req, res) => {
     con.query("INSERT INTO userandanswer(username, questionno, answer, status) VALUES('" + req.body.username + "','" + req.body.questionno + "','" + req.body.option1 + "','" + ansstat + "')", function (err, result, fields) {
         if (err)
             throw err;
-        console.log(result);
+       // console.log(result);
     });
 
     let x = Math.floor((Math.random() * ran) + 1);
-    console.log(x);
-    if (req.body.qb.length < ran) {
-        while (req.body.qb.includes(x)) {
-            //console.log("whilein")
-            x = Math.floor((Math.random() * ran) + 1);
-        }
-        console.log(req.body.qb);
-        var z = req.body.qb.push(x);
-        console.log(req.body.qb)
-        var rawdata = fs.readFileSync(dir + '/q' + x + '.json');
-        var student = JSON.parse(rawdata);
-        student.qb = req.body.qb
-        res.send({ "question": student });
-    }
+   // console.log(x);
+    //if (req.body.qb.length < ran) {
+    //    while (req.body.qb.includes(x)) {
+    //        //console.log("whilein")
+    //        x = Math.floor((Math.random() * ran) + 1);
+    //    }
+    //    console.log(req.body.qb);
+    //    var z = req.body.qb.push(x);
+    //    console.log(req.body.qb)
+    place(req.body.qb, res)
+    console.log(req.body.qb)
+        //var rawdata = fs.readFileSync(dir + '/q' + x + '.json');
+        //var student = JSON.parse(rawdata);
+        //student.qb = req.body.qb
+        //res.send({ "question": student });
+    
 });
 
-function place(qb) {
+function place(qb, res) {
+    let x = Math.floor((Math.random() * ran) + 1);
+    console.log("qb")
+    console.log(qb)
     if (qb.length < ran) {
         let x = Math.floor((Math.random() * ran) + 1);
         while (qb.includes(x)) {
@@ -170,7 +176,7 @@ function place(qb) {
         var rawdata = fs.readFileSync(dir + '/q' + x + '.json');
         var student = JSON.parse(rawdata);
         student.qb = qb;
-        //res.send({ "question": student });
+        res.send({ "question": student });
     }
 }
 app.post('/quesone', (req, res) => {
@@ -211,7 +217,11 @@ app.post('/quesone', (req, res) => {
                 arr.push(item.questionno);
             })
             console.log(arr);
-            place(qb);
+           
+            console.log(x);
+            place(arr, res);
+            console.log(arr)
+            
         }
     });
 });
