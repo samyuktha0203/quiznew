@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 
 const express = require('express');
+const router = express.Router();
 var bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
@@ -27,7 +28,7 @@ con.connect(function (err) {
     //});
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
 
@@ -110,10 +111,11 @@ const answerbank = [{
         "option1": "option4"
     }];
 
+
 app.post('/option', (req, res) => {
     console.log("test")
     console.log(req.body);
-    var ansstat;
+    let ansstat;
     let fil = answerbank.filter(questions => questions.questionno == req.body.questionno);
     //console.log(fil[0].option1);
     //var red = JSON.stringify(req.body) != JSON.stringify(fil[0]) ? 'incorrect' : 'correct';
@@ -178,6 +180,16 @@ function place(qb, res) {
         student.qb = qb;
         res.send({ "question": student });
     }
+    else {
+        //res.sendFile('HTMLPage1.html', { root: './quizproject' })
+
+        //console.log("redirect")
+        res.send({ "ref": "blue" }); 
+        //res.redirect(303, '/HTMLPage1.html');
+          //res.redirect('/test');
+        //res.writeHead(302, { location: '/HTMLPage1.html' });
+        //res.end();
+    }
 }
 app.post('/quesone', (req, res) => {
     //let fil1 = todo.filter(questions => questions.questionno == "1");
@@ -220,10 +232,81 @@ app.post('/quesone', (req, res) => {
            
             console.log(x);
             place(arr, res);
-            console.log(arr)
-            
+            console.log(arr);
         }
     });
+});
+
+//app.get('/test', (req, res) => {
+//    console.log("redirect")
+//    res.sendFile(__dirname +'/quizproject/HTMLPage1.html');
+//    //res.redirect('/HTMLPage1.html');
+//});
+
+app.post('/count', (req, res) => {
+    con.query("SELECT count(*) as answer FROM userandanswer where status='correct' and username='" + req.body.username + "'", function (err, result, fields) {
+        if (!err) {
+            console.log(req.body)
+            console.log(result);
+            //res.send({"key": [{ "correct": result }, { "ran": ran }]})
+            res.send({ "correct": result[0].answer, "totalscore": ran });
+        } else {
+            console.log(err);
+        }
+    })
+});
+
+var ar = [];
+app.get('/join', (req, res) => {
+    //console.log(dir)
+    let filenames = fs.readdirSync(dir);
+    filenames.forEach((file) => {
+        var rawdata = fs.readFileSync(dir + '/' + file);
+        //console.log("File:", file);
+        let fil = JSON.parse(rawdata);
+        // console.log(fil);
+        ar.push(fil)
+    })
+    //console.log(ar)
+});
+
+app.get('/selected', (req, res) => {
+    con.query("SELECT questionno,answer FROM userandanswer", function (err, result, fields) {
+        if (!err) {
+            console.log(result);
+        } else {
+            console.log(err);
+        }
+    })
+});
+
+var ar1 = [];
+app.get('/viewtable', (req, res) => {
+    con.query("SELECT questionno,answer,status FROM userandanswer", function (err, result, fields) {
+        if (!err) {
+            //console.log(result);
+            //result.forEach(function (item) {
+            //    //console.log(item.status)
+            //})
+            ar1 = ar.map(function (item) {
+                //console.log(item.questionno)
+                let correctans = answerbank.filter(answers => answers.questionno == item.questionno);
+                let selectedans = result.filter(selanswers => selanswers.questionno == item.questionno);
+                let status = result.filter(stat => stat.questionno == item.questionno);
+                //console.log(status[0].status)
+                //console.log(selectedans[0].answer);
+
+                //console.log(correctans[0].option1);
+                //console.log(item[correctans[0].option1])
+
+                return { "question": item.question, "answer": item[correctans[0].option1], "selectedanswer": item[selectedans[0].answer], "status": status[0].status};
+            });
+            console.log(ar1);
+        }
+        else {
+            console.log(err);
+        }
+    })
 });
 
 app.listen(port, () => {

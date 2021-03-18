@@ -1,4 +1,4 @@
-﻿var one, two, inc, timer
+﻿var one, two, timer
 function function1(selected) {
     const todo = {
         "username": username,

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>QUIZ</title>
+</head>
+<body>
+    <h1> End of quiz </h1>
+    <h1> Results </h1>
+    <p id="demo"></p>
+    <div id="demo1"></div>
+    <script>
+        var name = localStorage.getItem("firstname");
+        document.getElementById("demo").innerHTML = name;
+        console.log(name);
+        const n = { "username": name }
+            fetch('http://localhost:3000/count', {
+                method: 'POST',
+                body: JSON.stringify(n),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+                .then(response => response.json())
+                .then(json => {
+                    //json.totalscore
+                    console.log(json.correct);
+                    console.log(json.totalscore);
+                    ////c = json.correct;
+                    ////t = json.totalscore;
+                    document.getElementById("demo1").innerHTML = json.correct + '/' + json.totalscore;     
+            })
+    </script>
+</body>
+</html>
