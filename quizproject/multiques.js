@@ -16,12 +16,17 @@ function function1(selected) {
     })
         .then(response => response.json())
         .then(submitjson => {
-            console.log(submitjson);
+            if (submitjson.ref == "blue") {
+                window.location.href = "/HTMLPage1.html";
+            }
+            else {
+                console.log(submitjson);
                 quiz(submitjson)
                 username;
                 one = submitjson.question.questionno;
                 two = submitjson.question.qb;
                 clearInterval(timer);
                 time();
+            }
         })
 }

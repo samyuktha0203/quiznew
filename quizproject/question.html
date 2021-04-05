@@ -20,10 +20,28 @@
                 color: white;
             }
     </style>
+
+    <script  type="text/javascript" >
+       
+        window.addEventListener('beforeunload', (event) => {
+
+            console.log("red")
+            console.log("BEFORE")
+            //navigator.sendBeacon("http://www.google.it");
+            return "stop"
+            // Cancel the event as stated by the standard.
+            event.preventDefault();
+            // Chrome requires returnValue to be set.
+            event.returnValue = '';
+        });
+
+    </script>
+
+
 </head>
 <body onload="questions()">
     <form action="" onsubmit="return false">
-        <label for="question" id="question">1. question?</label>
+        <label for="question" id="question">question</label>
         <div id="myDIV">
             <button class="btn" id="option1" value="option1">option1</button>
             <button class="btn active" id="option2" value="option2">option2</button>
@@ -32,12 +50,31 @@
         </div>
         <br><br>
         <button onclick="myFunction()">Submit</button>
+        <button onclick="log()">Logout</button>
     </form>
     <script src="./multiques.js"></script>
     <p id="demo"></p>
+    <p id="demo1"></p>
     <script type="text/javascript">
-        let username = "sam1";
-        localStorage.setItem("firstname", username);
+        //window.onbeforeunload = function () {
+        //    return 'Are you really want to perform the action?';
+        //}
+        //window.onbeforeunload = function (event) {
+        //    event.returnValue = "Write something clever here..";
+        //};
+
+        var url_string = window.location.href
+        var url = new URL(url_string);
+        var username = url.searchParams.get("name");
+        //console.log(username)
+        //const params = new URLSearchParams(window.location.search)
+        //let username = "sam1";
+
+        document.getElementById("demo1").innerHTML = username;
+        var user = localStorage.setItem("firstname", username);
+        if (username == null) {
+            window.location.href = "/login";
+        }
         //sessionStorage.setItem("username", username);
         var header = document.getElementById("myDIV");
         var btns = header.getElementsByClassName("btn");
@@ -63,9 +100,19 @@
             //}
             function1(selected);
         }
+        function log() {
+            fetch('http://localhost:3000/logout', {
+                method: 'GET',
+                body: JSON.stringify(),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+            window.location.href = "/register"
+        }
         function questions() {
             time();
-            const nam = { "username": username}
+            const nam = { "username": username }
             fetch('http://localhost:3000/quesone', {
                 method: 'POST',
                 body: JSON.stringify(nam),
@@ -77,46 +124,53 @@
                 .then(response => response.json())
                 .then(json => {
                     if (json.ref == "blue") {
-                        window.location.href="/HTMLPage1.html";
+                        window.location.href = "/HTMLPage1.html";
                     }
                     else {
-                        console.log(json.question.qb);
+                        //console.log(json.question.qb);
                         quiz(json);
                         username;
                         one = json.question.questionno;
                         two = json.question.qb;
                     }
+                }).catch(error => {
+                    console.log(error)
+                    window.location.href = "/register"
                 })
         }
-        function quiz(json)
-        {
-            console.log(json.question.question)
-            document.getElementById("question").innerHTML = json.question.question;
-            document.getElementById("option1").innerHTML = json.question.option1;
-            document.getElementById("option2").innerHTML = json.question.option2;
-            document.getElementById("option3").innerHTML = json.question.option3;
-            document.getElementById("option4").innerHTML = json.question.option4;
+        function random() {
+            return 'stop'
         }
+        //window.onbeforeunload = random;
+        function quiz(json) {
+                    console.log(json.question.question)
+                    document.getElementById("question").innerHTML = json.question.question;
+                    document.getElementById("option1").innerHTML = json.question.option1;
+                    document.getElementById("option2").innerHTML = json.question.option2;
+                    document.getElementById("option3").innerHTML = json.question.option3;
+                    document.getElementById("option4").innerHTML = json.question.option4;
+                }
         //window.onload = question();
         function time() {
-            //var timer;
-            var sec = 56;
-            timer = setInterval(() => {
-                document.getElementById('demo').innerHTML = 'Time: 00:' + sec;
-                if (sec < 10) {
-                    //console.log(sec)
-                    document.getElementById('demo').innerHTML = 'Time: 00:0' + sec;
-                }
-                sec--; 
-                if (sec < 0) {
-                    clearInterval(timer);
-                    console.log("timeup");
-                    questions();
-                    selected = document.getElementsByClassName("active")[0].value;
-                    function1(selected);
-                }
-            }, 1000); 
+                    //var timer;
+                    var sec = 56;
+                    timer = setInterval(() => {
+                        document.getElementById('demo').innerHTML = 'Time: 00:' + sec;
+                        if (sec < 10) {
+                            //console.log(sec)
+                            document.getElementById('demo').innerHTML = 'Time: 00:0' + sec;
+                        }
+                        sec--;
+                        if (sec < 0) {
+                            clearInterval(timer);
+                            console.log("timeup");
+                            questions();
+                            selected = document.getElementsByClassName("active")[0].value;
+                            function1(selected);
+                        }
+                    }, 1000);
         }
+        
     </script>
 </body>
 </html>
