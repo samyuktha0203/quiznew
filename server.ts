@@ -16,7 +16,7 @@ const methodOverride = require('method-override')
 require('./passport-config.js')(passport);
 const initializePassport = require("./passport-config.js")
 
-
+//kushal
 var mysql = require('mysql');
 
 app.use(express.static('quizproject'))
