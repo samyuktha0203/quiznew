@@ -1,4 +1,5 @@
-<h1>Login</h1>
+<% /* %>
+<h1>Login</h1> 
 <% if (messages.error) { %>
 <%= messages.error %>
 <% } %>
@@ -8,9 +9,45 @@
             <input type="text" id="username" name="username" required />
         </div>
 		<div>
-            <label for="password">Password</label>
+           <label for="password">Password</label>
             <input type="password" id="password" name="password" required />
         </div>
 		<button type="submit">Login</button>
 </form>
-<a href="/register">Register</a>
+<a href="/register">Register</a>%>
+<% */ %>
+
+      <!DOCTYPE html> 
+      <html> 
+      <head> 
+          <title>Welcome</title> 
+           <%- include ("../views/stylesheet") %>
+      </head> 
+      <body> 
+  <% /* %>      <%- include ("../views/header") %> <% */ %>
+   
+        <div class="container"> 
+            <% if (messages.error) { %>
+<%= messages.error %>
+<% } %>
+            <form class="form-signin" action="/login" method="post"> 
+            <h2 class="form-signin-heading">Welcome sign in</h2> 
+            <label for="inputusername" class="sr-only">Username</label> 
+            <input type="text" id="username" name="username" class="form-
+              control" placeholder="Username" required=""> 
+            <label for="inputPassword" class="sr-only">Password</label> 
+            <input type="password" id="password" name="password"
+             class="form-control" placeholder="Password" required=""> 
+            <button class="btn btn-lg btn-primary btn-block" 
+               type="submit">Sign in</button> 
+            <br> 
+            <p>Don't have an account? <a href="/signup">Signup</a> 
+               </p> 
+          </form> 
+        </div> 
+ 
+   <% /* %>     <%- include ("../views/footer") %>  <% */ %>
+        <%- include ("../views/javascript") %> 
+      </body> 
+      </html> 
+

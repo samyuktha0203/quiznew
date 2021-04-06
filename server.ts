@@ -69,7 +69,7 @@ fs.readdir(dir, (err, files) => {
 
 var ar = [];
 function join() {
-    console.log(dir)
+    //console.log(dir)
     let filenames = fs.readdirSync(dir);
     filenames.forEach((file) => {
         var rawdata = fs.readFileSync(dir + '/' + file);
@@ -344,7 +344,7 @@ app.post('/viewtable', (req, res) => {
 });
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
-res.render("login.ejs")
+res.redirect("login.html")
 })
 
 app.post('/login', checkNotAuthenticated, function (req, res, next) {
@@ -368,10 +368,11 @@ app.post('/login', checkNotAuthenticated, function (req, res, next) {
 //});
 
 app.get('/register', (req, res) => {
-    res.render("register.ejs")
+    res.redirect("register.html")
 })
 
 app.post('/register', async (req, res) => {
+    //console.log("S")
     try {
         const hashedpassword = await bcrypt.hash(req.body.password, 10)
         con.query("INSERT INTO users(user, password) VALUES('" + req.body.username + "','" + hashedpassword + "')", function (err, result, fields) {

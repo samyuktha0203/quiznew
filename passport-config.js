@@ -18,12 +18,12 @@ const bcrypt = require('bcrypt')
 function initialize(passport) {
     const authenticateUser = async (username, password, done) => {
         //const user = getUserByUsername(username)
-        console.log("u"+username)
+        //console.log("u"+username)
         //console.log(password)
         const query = util.promisify(con.query).bind(con);
         //const results = await con.query("Select * from users where user='" + username + "'");
         const user = await query("Select * from users where user='" + username + "'");
-        console.log(user)
+        //console.log(user)
         //console.log("uu" + user[0].user)
         if (user === undefined || user.length == 0) {
             return done(null, false, { message: "no user" })
@@ -31,7 +31,7 @@ function initialize(passport) {
 
         try {
             //console.log("s" + password)
-            console.log(user[0].password)
+            //console.log(user[0].password)
             const comp = await bcrypt.compare(password, user[0].password);
             //console.log(comp) 
             if (comp == true) {

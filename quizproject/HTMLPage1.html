@@ -8,14 +8,15 @@
 </head>
 <body>
     <h1> End of quiz </h1>
-    <h1> Results </h1>
+    <h2> Results </h2>
     <button onclick="tab()">View Result</button>
     <p id="demo"></p>
     <div id="demo1"></div>
     <div id="example-table"></div>
+    <button onclick="log()">Logout</button>
     <script type="text/javascript">
         var name = localStorage.getItem("firstname");
-        document.getElementById("demo").innerHTML = name;
+        document.getElementById("demo").innerHTML = 'Participant Name: ' + name;
         console.log(name);
         const n = { "username": name }
         fetch('http://localhost:3000/count', {
@@ -32,7 +33,7 @@
                 console.log(json.totalscore);
                 ////c = json.correct;
                 ////t = json.totalscore;
-                document.getElementById("demo1").innerHTML = json.correct + '/' + json.totalscore;
+                document.getElementById("demo1").innerHTML = 'Score: ' + json.correct + '/' + json.totalscore;
             })
         function tab() {
             const n = { "username": name }
@@ -56,11 +57,11 @@
                         pagination: "local",       //paginate the data
                         paginationSize: 10,         //allow 7 rows per page of data
                         columns: [                 //define the table columns
-                            { title: "Question", field: "question", width: 350, hozAlign: "left", sorter: "string", },
-                            { title: "Correct Answer", field: "answer", hozAlign: "left", width: 200, sorter: "string", },
-                            { title: "Selected Answer", field: "selectedanswer", hozAlign: "left", width: 200, sorter: "string", },
+                            { title: "Question", field: "question", width: 400, hozAlign: "left", sorter: "string", },
+                            { title: "Correct Answer", field: "answer", hozAlign: "left", width: 300, sorter: "string", },
+                            { title: "Selected Answer", field: "selectedanswer", hozAlign: "left", width: 250, sorter: "string", },
                             {
-                                title: "Status", field: "status", hozAlign: "center", width: 190, sorter: "string", formatter: function (cell, formatterParams) {
+                                title: "Status", field: "status", hozAlign: "center", width: 370, sorter: "string", formatter: function (cell, formatterParams) {
                                     //cell - the cell component
                                     //formatterParams - parameters set for the column
                                     var value = cell.getValue();
@@ -73,22 +74,32 @@
                                     }
                                     return value;
                                 }
-                                    //var data = cell.getValue()
-                                    //if (data == "incorrect") {
-                                    //    return "<span style='color:red; font-weight:bold;'>" + value + "</span>";
-                                    //    var element = cell.getValue();
-                                    //    console.log(element)
-                                    //    cell.getElement().innerHTML = element
-                                    //    cell.getElement().style.backgroundColor = "red"
-                                    //}
-                                    //else {
-                                    //    return "<span style='color:green; font-weight:bold;'>" + value + "</span>";
-                                    //    cell.getElement().style.backgroundColor = "green"
-                                    //}
+                                //var data = cell.getValue()
+                                //if (data == "incorrect") {
+                                //    return "<span style='color:red; font-weight:bold;'>" + value + "</span>";
+                                //    var element = cell.getValue();
+                                //    console.log(element)
+                                //    cell.getElement().innerHTML = element
+                                //    cell.getElement().style.backgroundColor = "red"
+                                //}
+                                //else {
+                                //    return "<span style='color:green; font-weight:bold;'>" + value + "</span>";
+                                //    cell.getElement().style.backgroundColor = "green"
+                                //}
                             }
                         ]
                     });
                 })
+        }
+        function log() {
+            fetch('http://localhost:3000/logout', {
+                method: 'GET',
+                body: JSON.stringify(),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            })
+            window.location.href = "/register"
         }
     </script>
 </body>
