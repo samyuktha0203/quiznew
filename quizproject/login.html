@@ -51,22 +51,21 @@
               </div>
               <div style="display:flex;width:50%;align-items: center;justify-content: center;/* align-self: center; */background-color: white;border-top-right-radius: 30px;
             border-bottom-right-radius: 30px;" >
-                  <div style="display: block;height:fit-content";
->
+                  <div style="display: block;height:fit-content";>
                       <h4>Login</h4>
                       <form action="/login" method="POST">
                           <div class="form-row">
-                              <div class="col-lg-7">
-                                  <input type="text" placeholder="Username" name="username" class="form-control my-2 p-2" />
+                              <div class="col-lg-7" style="max-width:100%; flex:none">
+                                  <input type="text" placeholder="Username" name="username" class="form-control my-2 p-2" required />
                               </div>
                           </div>
                           <div class="form-row">
-                              <div class="col-lg-7">
-                                  <input type="password" placeholder="********" name="password" class="form-control my-2 p-2" />
+                              <div class="col-lg-7" style="max-width:100%; flex:none">
+                                  <input type="password" placeholder="********" name="password" class="form-control my-2 p-2" required />
                               </div>
                           </div>
                           <div class="form-row">
-                              <div class="col-lg-7">
+                              <div class="col-lg-7" style="max-width:100%; flex:none">
                                   <button type="submit" class="btn1 mt-3 mp-5">Login</button>
                               </div>
                           </div>
