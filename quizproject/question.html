@@ -9,16 +9,36 @@
             border: none;
             outline: none;
             padding: 10px 16px;
-            background-color: #f1f1f1;
+            /*background-color: #f1f1f1;*/
+            background: #007bad;
             cursor: pointer;
-            font-size: 18px;
+            /*font-size: 18px;*/
+            font-size: x-large;
+            color: whitesmoke;
         }
 
             /* Style the active class, and buttons on mouse-over */
             .active, .btn:hover {
-                background-color: #666;
-                color: white;
+                /*background-color: #666;*/
+                background-color: #3692b7;
             }
+        .dot {
+            height: 150px;
+            width: 150px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .f {
+            font-size: xxx-large;
+            color: whitesmoke;
+        }
+        .btn1 {
+            background: #231c4c;
+        }
+        .hover:hover{
+            background-color:darkslateblue
+        }
     </style>
     <!--<script  type="text/javascript" >
        
@@ -36,110 +56,130 @@
 
     </script>-->
 </head>
-<body onload="questions()">
-    <form action="" onsubmit="return false">
-        <label for="question" id="question">question</label>
-        <div id="myDIV">
-            <button class="btn" id="option1" value="option1">option1</button>
-            <button class="btn active" id="option2" value="option2">option2</button>
-            <button class="btn" id="option3" value="option3">option3</button>
-            <button class="btn" id="option4" value="option4">option4</button>
+<body onload="questions1()" style="margin:0;">
+    <div style="display:flex;width: 100vw;height: 100vh;align-content: center;justify-content: center;flex-direction: column;align-items: flex-start;">
+        <div style="display:flex;height: 35%;width: 100%;align-items: center;">
+            <div style="display:flex;height: 100%;width: 70%;align-items: center;justify-content: center;background-color: #442b77;">
+                    <label for="question" id="question" class="f">question</label>
+            </div>
+            <div style="display:flex;height: 100%;width: 30%;align-items: center;justify-content: center;background-color: #442b77;">
+                <div style="display:flex;align-items: center;justify-content: center;background: #6a5cc1;" class="dot">
+                    <label for="time" id="demo" class="f">Time</label>
+                    </div>
+                </div>
+            </div>
+        <div  id="myDIV" style="display:flex;height: 45%;width: 100%;align-items: center;flex-wrap: wrap;">
+            <div style="display:flex;height: 45%;width: 50%;align-items: center;justify-content: center;" >
+                    <button style="display:flex;height: 45%;width: 70%;align-items: center;justify-content: center;" class="btn" id="option1" value="option1">option1</button>
+            </div>
+            <div style="display:flex;height: 45%;width: 50%;align-items: center;justify-content: center;">
+                    <button style="display:flex;height: 45%;width: 70%;align-items: center;justify-content: center;"class="btn active" id="option2" value="option2">option2</button>
+            </div>
+            <div style="display:flex;height: 45%;width: 50%;align-items: center;justify-content: center;">
+                    <button style="display:flex;height: 45%;width: 70%;align-items: center;justify-content: center;" class="btn" id="option3" value="option3">option3</button>
+            </div>
+            <div style="display:flex;height: 45%;width: 50%;align-items: center;justify-content: center;">
+                    <button style="display:flex;height: 45%;width: 70%;align-items: center;justify-content: center;" class="btn" id="option4" value="option4">option4</button>
+            </div>
         </div>
-        <br><br>
-        <button onclick="myFunction()">Submit</button>
-        <button onclick="log()">Logout</button>
-    </form>
-    <script src="./multiques.js"></script>
-    <p id="demo"></p>
-    <p id="demo1"></p>
-    <script type="text/javascript">
-        //window.onbeforeunload = function () {
-        //    return 'Are you really want to perform the action?';
-        //}
-        //window.onbeforeunload = function (event) {
-        //    event.returnValue = "Write something clever here..";
-        //};
+        <div style="display:flex;height: 20%;width: 100%;align-items: center;justify-content: center;">
+                <button style="display:flex;height: 40%;width: 30%;align-items: center;justify-content: center;box-shadow: 1px 1px 8px 9px #888888;"  class="btn btn1 hover" onclick="myFunction()" onsubmit="return false">Submit</button>
+        </div>
+            <div style="display:none">
+                <br><br>
 
-        var url_string = window.location.href
-        var url = new URL(url_string);
-        var username = url.searchParams.get("name");
-        //console.log(username)
-        //const params = new URLSearchParams(window.location.search)
-        //let username = "sam1";
+                <button onclick="log()">Logout</button>
+                <script src="./multiques.js"></script>
+                <p id="demo1"></p>
+            </div>
+            <script type="text/javascript">
+                //window.onbeforeunload = function () {
+                //    return 'Are you really want to perform the action?';
+                //}
+                //window.onbeforeunload = function (event) {
+                //    event.returnValue = "Write something clever here..";
+                //};
 
-        document.getElementById("demo1").innerHTML = username;
-        var user = localStorage.setItem("firstname", username);
-        if (username == null) {
-            window.location.href = "/login";
-        }
-        //sessionStorage.setItem("username", username);
-        var header = document.getElementById("myDIV");
-        var btns = header.getElementsByClassName("btn");
-        for (var i = 0; i < btns.length; i++) {
-            btns[i].addEventListener("click", function () {
-                //this.className += " active";
-                var current = document.getElementsByClassName("active");
-                current[0].className = current[0].className.replace("active", "");
-                this.className += " active";
-            });
-        }
-        var selected;
-        function myFunction() {
-            //console.log(document.getElementsByClassName("active")[0].value)
-            selected = document.getElementsByClassName("active")[0].value;
-            //let questionno = 1;
-            //var selected = document.getElementsByClassName("active")[0].value;
-            //if (selected == "Blue") {
-            //    console.log("correct answer");
-            //}
-            //else {
-            //    console.log("incorrect answer");
-            //}
-            function1(selected);
-        }
-        function log() {
-            fetch('http://localhost:3000/logout', {
-                method: 'GET',
-                body: JSON.stringify(),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8'
+                var url_string = window.location.href
+                var url = new URL(url_string);
+                var username = url.searchParams.get("name");
+                //console.log(username)
+                //const params = new URLSearchParams(window.location.search)
+                //let username = "sam1";
+
+                document.getElementById("demo1").innerHTML = username;
+                var user = localStorage.setItem("firstname", username);
+                if (username == null) {
+                    window.location.href = "/login";
                 }
-            })
-            window.location.href = "/register"
-        }
-        function questions() {
-            time();
-            const nam = { "username": username }
-            fetch('http://localhost:3000/quesone', {
-                method: 'POST',
-                body: JSON.stringify(nam),
-                redirect: 'follow',
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8'
+                //sessionStorage.setItem("username", username);
+                var header = document.getElementById("myDIV");
+                var btns = header.getElementsByClassName("btn");
+                for (var i = 0; i < btns.length; i++) {
+                    btns[i].addEventListener("click", function () {
+                        //this.className += " active";
+                        var current = document.getElementsByClassName("active");
+                        current[0].className = current[0].className.replace("active", "");
+                        this.className += " active";
+                    });
                 }
-            })
-                .then(response => response.json())
-                .then(json => {
-                    if (json.ref == "blue") {
-                        window.location.href = "/HTMLPage1.html";
-                    }
-                    else {
-                        //console.log(json.question.qb);
-                        quiz(json);
-                        username;
-                        one = json.question.questionno;
-                        two = json.question.qb;
-                    }
-                }).catch(error => {
-                    console.log(error)
+                var selected;
+                function myFunction() {
+                    //console.log(document.getElementsByClassName("active")[0].value)
+                    selected = document.getElementsByClassName("active")[0].value;
+                    //let questionno = 1;
+                    //var selected = document.getElementsByClassName("active")[0].value;
+                    //if (selected == "Blue") {
+                    //    console.log("correct answer");
+                    //}
+                    //else {
+                    //    console.log("incorrect answer");
+                    //}
+                    function1(selected);
+                }
+                function log() {
+                    fetch('http://localhost:3000/logout', {
+                        method: 'GET',
+                        body: JSON.stringify(),
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8'
+                        }
+                    })
                     window.location.href = "/register"
-                })
-        }
-        function random() {
-            return 'stop'
-        }
-        //window.onbeforeunload = random;
-        function quiz(json) {
+                }
+                function questions() {
+                    time();
+                    const nam = { "username": username }
+                    fetch('http://localhost:3000/quesone', {
+                        method: 'POST',
+                        body: JSON.stringify(nam),
+                        redirect: 'follow',
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(json => {
+                            if (json.ref == "blue") {
+                                window.location.href = "/HTMLPage1.html";
+                            }
+                            else {
+                                //console.log(json.question.qb);
+                                quiz(json);
+                                username;
+                                one = json.question.questionno;
+                                two = json.question.qb;
+                            }
+                        }).catch(error => {
+                            console.log(error)
+                            window.location.href = "/register"
+                        })
+                }
+                function random() {
+                    return 'stop'
+                }
+                //window.onbeforeunload = random;
+                function quiz(json) {
                     console.log(json.question.question)
                     document.getElementById("question").innerHTML = json.question.question;
                     document.getElementById("option1").innerHTML = json.question.option1;
@@ -147,15 +187,15 @@
                     document.getElementById("option3").innerHTML = json.question.option3;
                     document.getElementById("option4").innerHTML = json.question.option4;
                 }
-        //window.onload = question();
-        function time() {
+                //window.onload = question();
+                function time() {
                     //var timer;
-                    var sec = 56;
+                    var sec = 60;
                     timer = setInterval(() => {
-                        document.getElementById('demo').innerHTML = 'Time: 00:' + sec;
+                        document.getElementById('demo').innerHTML =  sec;
                         if (sec < 10) {
                             //console.log(sec)
-                            document.getElementById('demo').innerHTML = 'Time: 00:0' + sec;
+                            document.getElementById('demo').innerHTML = '0' + sec;
                         }
                         sec--;
                         if (sec < 0) {
@@ -166,8 +206,9 @@
                             function1(selected);
                         }
                     }, 1000);
-        }
-        
-    </script>
+                }
+
+            </script>
+        </div>
 </body>
 </html>
