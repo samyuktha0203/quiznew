@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body style="margin:0;">
+    <div style="display:flex;width: 100vw;height: 100vh;align-content: center;flex-direction: column;align-items: flex-start;">
+        <div style="display:flex;height: 25%;width: 100%;align-items: center;">
+            <div style="display:flex;height: 25%;width: 100%;align-items: center;">
+                <h2>Hello admin</h2>
+                <h3>Create your questionnaire</h3>
+            </div>
+        </div>
+        <div style="display:flex;height: 55%;width: 100%;align-items: center;flex-wrap: wrap;">
+            <form action="/generate" method="POST" onsubmit="false">
+
+                Question: <textarea name="question" rows="4" cols="50"></textarea>
+                <div id="mydiv" style="display:flex;height: 45%;width: 100%;align-items: center;flex-wrap: wrap;">
+                    Option1: <input type="text" id="sometext" onfocusout="myFunction()" placeholder="option1" name="option1" class="form-control my-2 p-2" required />
+
+                    Option2: <input type="text" id="sometext1" onfocusout="myFunction()" placeholder="option2" name="option2" class="form-control my-2 p-2" required />
+
+                    Option3: <input type="text" id="sometext2" onfocusout="myFunction()" placeholder="option3" name="option3" class="form-control my-2 p-2" required />
+
+                    Option4: <input type="text" id="sometext3" onfocusout="myFunction()" placeholder="option4" name="option4" class="form-control my-2 p-2" required />
+                    <label for="correctans">Correct answer:</label>
+                    <select name="correctans" id="correctans">
+                        <option value="option1">1</option>
+                        <option value="option2">2</option>
+                        <option value="option3">3</option>
+                        <option value="option4">4</option>
+                    </select>
+                    <input type="submit" />
+                </div>
+            </form>
+        </div>
+    </div>
+        <script type="text/javascript">
+            function myFunction() {
+                var t = document.getElementById("sometext");
+                var x = document.getElementById("correctans").options[0];
+                x.text=t.value
+                console.log(t.value);
+                var t1 = document.getElementById("sometext1");
+                var x1 = document.getElementById("correctans").options[1];
+                x1.text = t1.value
+                console.log(t1.value);
+                var t2 = document.getElementById("sometext2");
+                var x2 = document.getElementById("correctans").options[2];
+                x2.text = t2.value
+                console.log(t2.value);
+                var t3 = document.getElementById("sometext3");
+                var x3 = document.getElementById("correctans").options[3];
+                x3.text = t3.value
+                console.log(t3.value);
+            }
+        </script>
+</body >
+</html >

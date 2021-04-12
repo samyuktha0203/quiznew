@@ -421,6 +421,15 @@ app.get('/logout', function (req, res, next) {
     
 });
 
+app.post('/generate', (req, res) => {
+    con.query("INSERT INTO questions(question, option1,option2,option3,option4,correctans) VALUES('" + req.body.question + "','" + req.body.option1 + "','" + req.body.option2 + "','" + req.body.option3 + "','" + req.body.option4 + "','" + req.body.correctans + "')", function (err, result, fields) {
+        if (!err) {
+            //res.send({ "data": result })
+            console.log(result)
+        }
+    });
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
